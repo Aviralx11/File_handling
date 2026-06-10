@@ -1,0 +1,6 @@
+Jun 10, 2026 1:46:23 PM filehandling.util.LoggerConfig configure
+INFO: Logger initialized successfully
+Jun 10, 2026 1:46:23 PM filehandling.main.Main main
+INFO: Application started
+Jun 10, 2026 1:46:28 PM filehandling.main.Main getChoice
+WARNING: Invalid input entered: null
