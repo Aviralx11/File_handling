@@ -21,7 +21,7 @@ public class LoggerConfig {
             fileHandler.setFormatter(new SimpleFormatter());
             rootLogger.addHandler(fileHandler);
 
-            // Console handler - logs only warnings and errors
+            // Console handler - logs only warnings and severe
             ConsoleHandler consoleHandler = new ConsoleHandler();
             consoleHandler.setLevel(Level.WARNING);
             consoleHandler.setFormatter(new SimpleFormatter());
