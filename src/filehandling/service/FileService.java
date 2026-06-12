@@ -3,6 +3,7 @@ package filehandling.service;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import filehandling.exception.FileHandlingException;
 import filehandling.util.FileUtils;
 import filehandling.util.LoggerConfig;
 
@@ -19,11 +20,14 @@ public class FileService {
                 System.out.println("File exists");
                 logger.info("File exists: " + fileName);
             } else {
-                System.out.println("File does not exist");
-                logger.info("File does not exist: " + fileName);
+                throw new FileHandlingException("File not found: " + fileName);
             }
 
-        } 
+        }
+        catch (FileHandlingException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "FileHandlingException: " + e.getMessage(), e);
+        }
         catch (Exception e) {
             System.out.println(e.getMessage());
             logger.log(Level.SEVERE, "Error checking file existence: " + fileName, e);
@@ -38,20 +42,21 @@ public class FileService {
             File file = new File(fileName);
 
             if (file.exists()) {
-                System.out.println("File already exists");
-                logger.warning("File creation skipped, already exists: " + fileName);
-                return;
+                throw new FileHandlingException("File already exists: " + fileName);
             }
 
             if (file.createNewFile()) {
                 System.out.println("File created successfully");
                 logger.info("File created successfully: " + fileName);
             } else {
-                System.out.println("Failed to create file");
-                logger.warning("Failed to create file: " + fileName);
+                throw new FileHandlingException("Failed to create file: " + fileName);
             }
 
-        } 
+        }
+        catch (FileHandlingException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "FileHandlingException: " + e.getMessage(), e);
+        }
         catch (Exception e) {
             System.out.println("Error creating file: " + e.getMessage());
             logger.log(Level.SEVERE, "Error creating file: " + fileName, e);
@@ -66,9 +71,7 @@ public class FileService {
             File file = new File(fileName);
 
             if (!file.exists()) {
-                System.out.println("File does not exist");
-                logger.warning("File info requested but file does not exist: " + fileName);
-                return;
+                throw new FileHandlingException("File not found: " + fileName);
             }
 
             System.out.println("File Name: " + file.getName());
@@ -79,7 +82,11 @@ public class FileService {
 
             logger.info("File info displayed for: " + fileName + " (size=" + file.length() + " bytes)");
 
-        } 
+        }
+        catch (FileHandlingException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "FileHandlingException: " + e.getMessage(), e);
+        }
         catch (Exception e) {
             System.out.println("Error reading file info: " + e.getMessage());
             logger.log(Level.SEVERE, "Error reading file info: " + fileName, e);
@@ -94,20 +101,21 @@ public class FileService {
             File file = new File(fileName);
 
             if (!file.exists()) {
-                System.out.println("File does not exist");
-                logger.warning("Delete requested but file does not exist: " + fileName);
-                return;
+                throw new FileHandlingException("File not found: " + fileName);
             }
 
             if (file.delete()) {
                 System.out.println("File deleted successfully");
                 logger.info("File deleted successfully: " + fileName);
             } else {
-                System.out.println("Unable to delete file");
-                logger.warning("Unable to delete file: " + fileName);
+                throw new FileHandlingException("Unable to delete file: " + fileName);
             }
 
-        } 
+        }
+        catch (FileHandlingException e) {
+            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, "FileHandlingException: " + e.getMessage(), e);
+        }
         catch (Exception e) {
             System.out.println("Error deleting file: " + e.getMessage());
             logger.log(Level.SEVERE, "Error deleting file: " + fileName, e);
